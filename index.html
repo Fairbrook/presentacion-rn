@@ -1,0 +1,954 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>reveal.js</title>
+
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/black.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h2>Introducción a las redes neuronales</h2>
+          <p style="opacity: 0.5">by Kevin Martínez</p>
+          <aside class="notes">Shhh, these are your private notes 📝</aside>
+        </section>
+        <section>
+          <blockquote style="padding: 40px">
+            Las Redes Neuronales Artificiales son un modelo matemático
+            estadístico inspirado por la estructura y función de redes
+            neuronales biológicas
+          </blockquote>
+        </section>
+        <section>
+          <section>
+            <h3>Contexto histórico</h3>
+          </section>
+          <section data-auto-animate>
+            <h4>Regresión lineal</h4>
+            <p style="font-size: 0.8em">
+              Modelo matemático de más de 200 años de antiguedad que permite
+              encontrar relaciones entre variables para predecir valores
+              desconocidos
+            </p>
+            <aside class="notes">
+              Se die que ayudó a Gauss en 1800 a predecir la órbita de un
+              ateroide
+            </aside>
+          </section>
+          <section data-auto-animate>
+            <h4>Regresión lineal</h4>
+            <p style="font-size: 0.8em; opacity: 0.7">
+              ¿En qué se relaciona con las redes neuronales?
+            </p>
+            <ul>
+              <fragment class="fragment fade-up" style="font-size: 0.7em">
+                <li>
+                  Buscan predecir un resultado a datos desconocidos en base a
+                  información conocida
+                </li>
+              </fragment>
+              <fragment class="fragment fade-up" style="font-size: 0.7em">
+                <li>
+                  Tienen una forma similar
+                  <span> \[\begin{aligned} y &= mx + b \end{aligned}\] </span>
+                  <fragment class="fragment fade-up">
+                    <div style="margin-left: 3rem; font-size: 0.8em">
+                      Dónde:
+                      <div>\(m\): Repesenta pesos</div>
+                      <div>\(b\): Bias</div>
+                    </div>
+                  </fragment>
+                </li>
+              </fragment>
+            </ul>
+          </section>
+          <section data-auto-animate>
+            <h4>Regresión lineal</h4>
+            <div
+              style="
+                display: grid;
+                gap: 1rem;
+                align-items: center;
+                grid-template-columns: 1fr 1fr;
+                width: 100%;
+                font-size: 0.6em;
+              "
+            >
+              <div>m</div>
+              <div>b</div>
+              <input
+                id="m-input"
+                oninput="calcError()"
+                type="range"
+                step="0.5"
+                min="0"
+                max="10"
+              />
+              <input
+                id="b-input"
+                oninput="calcError()"
+                type="range"
+                min="0"
+                max="50"
+              />
+              <div style="font-size: 1.6em">
+                y = <span id="m">m</span>x + <span id="b">b</span>
+              </div>
+              <div style="font-size: 1.6em">
+                Error: <span id="error">0</span>
+              </div>
+            </div>
+            <br />
+            <div class="r-strech" style="height: 45vh; width: 100%">
+              <canvas id="linear-regression" style="width: 100%"></canvas>
+            </div>
+          </section>
+          <section>
+            <h4>Bioinspirado</h4>
+            <p>
+              Warren McCulloch y Walter Pitts (1943) publicaron un artículo con
+              la idea de una neurona artificial
+            </p>
+            <fragment class="fragment fade-up">
+              Una neurona artificial que recibe una serie de entradas y produce
+              una salida.
+            </fragment>
+            <br />
+            <br />
+            <fragment class="fragment fragment fade-up">
+              <h4>La base de las redes neuronales</h4>
+            </fragment>
+          </section>
+          <section>
+            <h4>Frank Rosenblatt</h4>
+            <p>
+              En 1958 creó el primer sistema de clasificación de aprendizaje
+              automático para neuronas artificiales conocidomo como perceptrón
+            </p>
+            <img
+              height="300"
+              src="https://news.cornell.edu/sites/default/files/styles/full_size/public/2019-09/0925_rosenblatt4.jpg?itok=UQKthwdI"
+              alt=""
+            />
+          </section>
+        </section>
+        <section>
+          <section data-auto-animate>
+            <h3>El perceptrón</h3>
+          </section>
+          <section data-auto-animate>
+            <h3>El perceptrón</h3>
+            <div style="font-size: 0.8em">
+              <div class="r-stack">
+                <fragment class="fragment fade-out" data-fragment-index="0">
+                  <p>Es la representación matemática de una neurona.</p>
+                </fragment>
+                <fragment
+                  class="fragment current-visible"
+                  data-fragment-index="2"
+                >
+                  <ul>
+                    <li>Recibe \(n\) entradas</li>
+                  </ul>
+                </fragment>
+                <fragment
+                  class="fragment current-visible"
+                  data-fragment-index="3"
+                >
+                  <ul>
+                    <li>
+                      Que multiplica por \(n\) pesos, los que representan la
+                      intensidad de la entrada
+                    </li>
+                  </ul>
+                </fragment>
+                <fragment
+                  class="fragment current-visible"
+                  data-fragment-index="4"
+                >
+                  <ul>
+                    <li>
+                      Cuya suma requiere de cierto nivel de activación (bias)
+                      para activar la salida
+                    </li>
+                  </ul>
+                </fragment>
+                <fragment
+                  class="fragment current-visible"
+                  data-fragment-index="5"
+                >
+                  <ul>
+                    <li>
+                      Esta suma se pasa a una función de activación para
+                      determinar la salida
+                    </li>
+                  </ul>
+                </fragment>
+                <fragment
+                  class="fragment current-visible"
+                  data-fragment-index="6"
+                >
+                  <ul>
+                    <li>
+                      Y finalmente envía la salida al usuario o a la siguiente
+                      neurona
+                    </li>
+                  </ul>
+                </fragment>
+              </div>
+              <div class="r-stack">
+                <fragment class="fragment fade-out" data-fragment-index="0">
+                  <ul>
+                    <li>Recibe \(n\) entradas</li>
+                    <li>Con una intencidad dada por los pesos \(W\)</li>
+                    <li>Con un nivel de activación \(b\)</li>
+                    <li>Y una función de activación \(f\)</li>
+                    <li>Para obtener una salida \(y\)</li>
+                  </ul>
+                </fragment>
+                <fragment
+                  class="fragment current-visible"
+                  data-fragment-index="0"
+                >
+                  <img height="400" src="/neuron.png" alt="" />
+                </fragment>
+                <fragment
+                  class="fragment current-visible"
+                  data-fragment-index="1"
+                >
+                  <img height="400" src="/perceptron.png" alt="" />
+                </fragment>
+                <fragment
+                  class="fragment current-visible"
+                  data-fragment-index="2"
+                >
+                  <img height="400" src="/perceptron-input.png" alt="" />
+                </fragment>
+                <fragment
+                  class="fragment current-visible"
+                  data-fragment-index="3"
+                >
+                  <img height="400" src="/perceptron-weights.png" alt="" />
+                </fragment>
+                <fragment
+                  class="fragment current-visible"
+                  data-fragment-index="4"
+                >
+                  <img height="400" src="/perceptron-bias.png" alt="" />
+                </fragment>
+                <fragment
+                  class="fragment current-visible"
+                  data-fragment-index="5"
+                >
+                  <img height="400" src="/perceptron-function.png" alt="" />
+                </fragment>
+                <fragment
+                  class="fragment current-visible"
+                  data-fragment-index="6"
+                >
+                  <img height="400" src="/perceptron-output.png" alt="" />
+                </fragment>
+              </div>
+            </div>
+          </section>
+          <section data-auto-animate>
+            <h3>El perceptrón</h3>
+            <p>\[\begin{aligned} y = x_1w_1 + x_2w_2 + b \end{aligned}\]</p>
+            <div
+              style="
+                display: grid;
+                align-items: center;
+                grid-template-columns: repeat(5, 1fr);
+                font-size: 0.8em;
+              "
+            >
+              <p>Entradas</p>
+              <p>Pesos</p>
+              <p>Sumatoria</p>
+              <p>Activación</p>
+              <p>Salida</p>
+
+              <div>
+                <input
+                  oninput="updatePerceptron()"
+                  style="height: 2rem; width: 2rem"
+                  id="i_1"
+                  type="checkbox"
+                  name=""
+                />
+              </div>
+              <div>
+                <div style="font-size: 0.7em" id="w_1_value">1</div>
+                <input
+                  oninput="updatePerceptron()"
+                  min="-2"
+                  max="2"
+                  step="0.2"
+                  value="1"
+                  style="width: 100%"
+                  id="w_1"
+                  type="range"
+                  name=""
+                />
+              </div>
+              <div
+                id="added"
+                style="
+                  grid-row: 2 / span 3;
+                  grid-column: 3;
+                  align-items: center;
+                "
+              >
+                -1
+              </div>
+              <div style="grid-row: 2 / span 3; grid-column: 4">
+                <img
+                  style="filter: invert(1)"
+                  src="https://upload.wikimedia.org/wikipedia/commons/d/d8/Step_function.svg"
+                  alt=""
+                />
+              </div>
+              <div
+                style="grid-row: 2 / span 3; grid-column: 5"
+                id="perceptron_output"
+              >
+                0
+              </div>
+
+              <div>
+                <input
+                  oninput="updatePerceptron()"
+                  style="height: 2rem; width: 2rem"
+                  id="i_2"
+                  type="checkbox"
+                  name=""
+                />
+              </div>
+              <div>
+                <div style="font-size: 0.7em" id="w_2_value">1</div>
+                <input
+                  oninput="updatePerceptron()"
+                  min="-2"
+                  max="2"
+                  step="0.2"
+                  value="1"
+                  style="width: 100%"
+                  id="w_2"
+                  type="range"
+                  name=""
+                />
+              </div>
+
+              <div>Bias</div>
+              <div>
+                <div style="font-size: 0.7em" id="bias_value">-1</div>
+                <input
+                  oninput="updatePerceptron()"
+                  min="-2"
+                  max="2"
+                  step="0.2"
+                  value="-1"
+                  style="width: 100%"
+                  id="bias"
+                  type="range"
+                  name=""
+                />
+              </div>
+            </div>
+          </section>
+        </section>
+        <section>
+          <h3>El perceptrón multicapa</h3>
+          <p style="font-size: 0.8em">
+            Perceptrones agrupados en capas, cada capa comparte una función de
+            activación y funcionan en conjunto para obtener la salida deseada
+          </p>
+          <img height="300" src="/mlp.png" alt="" />
+        </section>
+        <section>
+            <h3>¿Para que sirven las redes neuronales?</h3>
+            <ul>
+                <li>Procesamiento de imágenes</li>
+                <li>Procesamiento de texto</li>
+                <li>Reconocimiento de voz y audio</li>
+                <li>Análisis clínicos y diagnósticos médicos</li>
+                <li>Predicción de precios y tendencias</li>
+                <li>Vehículos autónomos</li>
+                <li>Predicción del clima</li>
+            </ul>
+        </section>
+        <section>
+          <h3>MNIST</h3>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 0 5rem;
+              align-items: center;
+              font-size: 0.8em;
+            "
+          >
+            <div>Entrada</div>
+            <div>Salida</div>
+            <div style="display: flex">
+              <canvas
+                style="
+                  background-color: #000;
+                  width: 100%;
+                  aspect-ratio: 1;
+                  margin: 0;
+                "
+                id="canvas"
+                width="24"
+                height="24"
+              ></canvas>
+            </div>
+            <div
+              style="
+                background-color: #000;
+                width: 100%;
+                aspect-ratio: 1;
+                color: white;
+              "
+              id="output"
+            ></div>
+          </div>
+          <div style="display: block">
+            <div style="display: block">
+              <button
+                onclick="forward()"
+                style="
+                  background-color: #0f0f0f;
+                  border: none;
+                  color: white;
+                  padding: 1rem;
+                  margin: 0;
+                  margin-top: 2rem;
+                  font-size: 1.5rem;
+                "
+              >
+                Forward
+              </button>
+            </div>
+            <button
+              onclick="clearcanvas()"
+              style="
+                background-color: transparent;
+                display: block;
+                margin: 0 auto;
+                margin-top: 1rem;
+                border: none;
+                color: white;
+              "
+            >
+              Limpiar
+            </button>
+          </div>
+          <dialog
+            style="
+              height: 80vh;
+              background-color: #0f0f0f;
+              color: white;
+              border: none;
+            "
+            id="activations"
+          ></dialog>
+        </section>
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script src="plugin/math/math.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cs.stanford.edu/people/karpathy/convnetjs/build/convnet-min.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        navigationMode: "linear",
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes,
+          RevealMath.KaTeX,
+        ],
+      });
+      function clearcanvas() {
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+      async function setupnn() {
+        var nn = new convnetjs.Net();
+        const res = await fetch("/model.json");
+        const json = await res.json();
+        nn.fromJSON(json);
+        window.nn = nn;
+      }
+      setupnn();
+      function setupcanvas() {
+        // create canvas element and append it to document body
+        var canvas = document.getElementById("canvas");
+
+        // get canvas 2D context and set him correct size
+        var ctx = canvas.getContext("2d");
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // last known position
+        var pos = { x: 0, y: 0 };
+
+        document.addEventListener("mousemove", draw);
+        document.addEventListener("mousedown", setPosition);
+        document.addEventListener("mouseenter", setPosition);
+
+        // new position from mouse event
+        function setPosition(e) {
+          pos.x = e.clientX;
+          pos.y = e.clientY;
+        }
+
+        // resize canvas
+        function resize() {
+          const rect = canvas.getBoundingClientRect();
+          ctx.canvas.width = 24;
+          ctx.canvas.height = 24;
+        }
+
+        function draw(e) {
+          // mouse left button must be pressed
+          if (e.buttons !== 1) return;
+          if (e.target.id != "canvas") return;
+          const rect = e.target.getBoundingClientRect();
+
+          ctx.beginPath(); // begin
+
+          ctx.lineWidth = 2;
+          ctx.lineCap = "round";
+          ctx.strokeStyle = "#fff";
+          scale_x = canvas.width / rect.width;
+          scale_y = canvas.height / rect.height;
+
+          ctx.moveTo((pos.x - rect.x) * scale_x, (pos.y - rect.y) * scale_y); // from
+          setPosition(e);
+          ctx.lineTo((pos.x - rect.x) * scale_x, (pos.y - rect.y) * scale_y); // to
+
+          ctx.stroke(); // draw it!
+        }
+      }
+      document.addEventListener("DOMContentLoaded", setupcanvas);
+      function forward() {
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        const img = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+        const input = Array(24 * 24);
+        for (let i = 0; i < img.length; i += 4) {
+          input[i / 4] = img[i] / 255;
+        }
+        const vol = new convnetjs.Vol(24, 24, 1);
+        vol.w = input;
+        console.log(vol);
+        const prediction = window.nn.forward(vol);
+        const predictedDigit = prediction.w.indexOf(Math.max(...prediction.w));
+        console.log("Predicted digit:", predictedDigit);
+        const elt = document.getElementById("activations");
+        visualize_activations(window.nn, elt);
+        const close = document.createElement("button");
+        close.textContent = "X";
+        close.style.position = "absolute";
+        close.style.background = "none";
+        close.style.border = "none";
+        close.style.top = "1rem";
+        close.style.right = "1rem";
+        close.style.color = "white";
+        close.style.fontSize = "2rem";
+        close.style.cursor = "pointer";
+        close.addEventListener("click", () => {
+          elt.close();
+        });
+        elt.appendChild(close);
+        const outputDiv = document.getElementById("output");
+        outputDiv.innerHTML = "";
+        outputDiv.style.position = "relative";
+        const digit = document.createElement("div");
+        digit.style.display = "flex";
+        digit.style.justifyContent = "center";
+        digit.style.alignItems = "center";
+        digit.textContent = predictedDigit;
+        digit.style.fontSize = "20rem";
+        digit.style.height = "90%";
+        outputDiv.appendChild(digit);
+        const percent = document.createElement("div");
+        percent.textContent = `${f2t(prediction.w[predictedDigit] * 100, 2)}%`;
+        percent.style.fontSize = "1.5rem";
+        percent.style.height = "10%";
+        outputDiv.appendChild(percent);
+        const info = document.createElement("div");
+        info.textContent = "i";
+        info.style.position = "absolute";
+        info.style.top = "1rem";
+        info.style.right = "1rem";
+        info.style.fontSize = "2rem";
+        info.style.border = "1px solid white";
+        info.style.borderRadius = "50%";
+        info.style.cursor = "pointer";
+        info.style.width = "2rem";
+        info.style.height = "2rem";
+        info.style.display = "flex";
+        info.style.justifyContent = "center";
+        info.style.alignItems = "center";
+        info.onclick = () => {
+          elt.showModal();
+        };
+        outputDiv.appendChild(info);
+      }
+
+      const maxmin = convnetjs.maxmin;
+      var f2t = function (x, d) {
+        if (typeof d === "undefined") {
+          var d = 5;
+        }
+        var dd = 1.0 * Math.pow(10, d);
+        return "" + Math.floor(x * dd) / dd;
+      };
+
+      // elt is the element to add all the canvas activation drawings into
+      // A is the Vol() to use
+      // scale is a multiplier to make the visualizations larger. Make higher for larger pictures
+      // if grads is true then gradients are used instead
+      var draw_activations = function (elt, A, scale, grads) {
+        var s = scale || 2; // scale
+        var draw_grads = false;
+        if (typeof grads !== "undefined") draw_grads = grads;
+
+        // get max and min activation to scale the maps automatically
+        var w = draw_grads ? A.dw : A.w;
+        var mm = maxmin(w);
+
+        // create the canvas elements, draw and add to DOM
+        for (var d = 0; d < A.depth; d++) {
+          var canv = document.createElement("canvas");
+          canv.className = "actmap";
+          var W = A.sx * s;
+          var H = A.sy * s;
+          canv.width = W;
+          canv.height = H;
+          var ctx = canv.getContext("2d");
+          var g = ctx.createImageData(W, H);
+
+          for (var x = 0; x < A.sx; x++) {
+            for (var y = 0; y < A.sy; y++) {
+              if (draw_grads) {
+                var dval = Math.floor(
+                  ((A.get_grad(x, y, d) - mm.minv) / mm.dv) * 255,
+                );
+              } else {
+                var dval = Math.floor(
+                  ((A.get(x, y, d) - mm.minv) / mm.dv) * 255,
+                );
+              }
+              for (var dx = 0; dx < s; dx++) {
+                for (var dy = 0; dy < s; dy++) {
+                  var pp = (W * (y * s + dy) + (dx + x * s)) * 4;
+                  for (var i = 0; i < 3; i++) {
+                    g.data[pp + i] = dval;
+                  } // rgb
+                  g.data[pp + 3] = 255; // alpha channel
+                }
+              }
+            }
+          }
+          ctx.putImageData(g, 0, 0);
+          elt.appendChild(canv);
+        }
+      };
+
+      var draw_activations_COLOR = function (elt, A, scale, grads) {
+        var s = scale || 2; // scale
+        var draw_grads = false;
+        if (typeof grads !== "undefined") draw_grads = grads;
+
+        // get max and min activation to scale the maps automatically
+        var w = draw_grads ? A.dw : A.w;
+        var mm = maxmin(w);
+
+        var canv = document.createElement("canvas");
+        canv.className = "actmap";
+        var W = A.sx * s;
+        var H = A.sy * s;
+        canv.width = W;
+        canv.height = H;
+        var ctx = canv.getContext("2d");
+        var g = ctx.createImageData(W, H);
+        for (var d = 0; d < 3; d++) {
+          for (var x = 0; x < A.sx; x++) {
+            for (var y = 0; y < A.sy; y++) {
+              if (draw_grads) {
+                var dval = Math.floor(
+                  ((A.get_grad(x, y, d) - mm.minv) / mm.dv) * 255,
+                );
+              } else {
+                var dval = Math.floor(
+                  ((A.get(x, y, d) - mm.minv) / mm.dv) * 255,
+                );
+              }
+              for (var dx = 0; dx < s; dx++) {
+                for (var dy = 0; dy < s; dy++) {
+                  var pp = (W * (y * s + dy) + (dx + x * s)) * 4;
+                  g.data[pp + d] = dval;
+                  if (d === 0) g.data[pp + 3] = 255; // alpha channel
+                }
+              }
+            }
+          }
+        }
+        ctx.putImageData(g, 0, 0);
+        elt.appendChild(canv);
+      };
+
+      var visualize_activations = function (net, elt) {
+        // clear the element
+        elt.innerHTML = "";
+
+        // show activations in each layer
+        var N = net.layers.length;
+        for (var i = 0; i < N; i++) {
+          var L = net.layers[i];
+
+          var layer_div = document.createElement("div");
+          layer_div.style.display = "grid";
+          layer_div.style.gridTemplateColumns = "2fr 1fr";
+          layer_div.style.gap = "1rem";
+
+          // visualize activations
+          var activations_div = document.createElement("div");
+          activations_div.style.marginTop = "auto";
+          activations_div.style.marginBottom = "auto";
+          //          activations_div.appendChild(document.createTextNode("Activaciones:"));
+          //          activations_div.appendChild(document.createElement("br"));
+          activations_div.className = "layer_act";
+          var scale = 2;
+          if (L.layer_type === "softmax" || L.layer_type === "fc") scale = 10; // for softmax
+
+          // HACK to draw in color in input layer
+          if (i === 0) {
+            draw_activations_COLOR(activations_div, L.out_act, scale);
+          } else {
+            draw_activations(activations_div, L.out_act, scale);
+          }
+
+          // visualize filters if they are of reasonable size
+          layer_div.appendChild(activations_div);
+
+          // print some stats on left of the layer
+          layer_div.className = "layer " + "lt" + L.layer_type;
+          var title_div = document.createElement("div");
+          title_div.style.fontSize = "0.5em";
+          var t =
+            L.layer_type.substr(0, 1).toUpperCase() +
+            L.layer_type.substr(1) +
+            " (" +
+            L.out_sx +
+            "x" +
+            L.out_sy +
+            "x" +
+            L.out_depth +
+            ")";
+          title_div.appendChild(document.createTextNode(t));
+          title_div.appendChild(document.createElement("br"));
+          layer_div.appendChild(title_div);
+          title_div.style.marginTop = "auto";
+          title_div.style.marginBottom = "auto";
+
+          if (L.layer_type === "conv") {
+            var t =
+              "Filtro: " +
+              L.filters[0].sx +
+              "x" +
+              L.filters[0].sy +
+              "x" +
+              L.filters[0].depth +
+              ", stride " +
+              L.stride;
+            title_div.appendChild(document.createTextNode(t));
+            title_div.appendChild(document.createElement("br"));
+          }
+          if (L.layer_type === "pool") {
+            var t =
+              "Tamaño del pool: " + L.sx + "x" + L.sy + ", stride " + L.stride;
+            title_div.appendChild(document.createTextNode(t));
+            title_div.appendChild(document.createElement("br"));
+          }
+
+          // number of parameters
+          if (L.layer_type === "conv" || L.layer_type === "local") {
+            var tot_params =
+              L.sx * L.sy * L.in_depth * L.filters.length + L.filters.length;
+            var t =
+              "Parámetros: " +
+              L.filters.length +
+              "x" +
+              L.sx +
+              "x" +
+              L.sy +
+              "x" +
+              L.in_depth +
+              "+" +
+              L.filters.length +
+              " = " +
+              tot_params;
+            title_div.appendChild(document.createTextNode(t));
+            title_div.appendChild(document.createElement("br"));
+          }
+          if (L.layer_type === "fc") {
+            var tot_params = L.num_inputs * L.filters.length + L.filters.length;
+            var t =
+              "Parámetros: " +
+              L.filters.length +
+              "x" +
+              L.num_inputs +
+              "+" +
+              L.filters.length +
+              " = " +
+              tot_params;
+            title_div.appendChild(document.createTextNode(t));
+            title_div.appendChild(document.createElement("br"));
+          }
+
+          // css madness needed here...
+          var clear = document.createElement("div");
+          clear.className = "clear";
+          layer_div.appendChild(clear);
+
+          elt.appendChild(layer_div);
+        }
+      };
+      window.chart = {
+        regression: {
+          b: 3,
+          m: 3.6,
+        },
+        labels: Array(10)
+          .fill(0)
+          .map((_, i) => i),
+        data: Array(10)
+          .fill(0)
+          .map((_, i) => (i % 3 == 0 ? Math.random() * 20 + i * 1.5 : null)),
+      };
+
+      function _setupChart() {
+        const ctx = document.getElementById("linear-regression");
+        window.chart.instance = new Chart(ctx, {
+          type: "scatter",
+          data: {
+            labels: window.chart.labels,
+            datasets: [
+              {
+                type: "line",
+                label: "Linear Regression",
+                data: window.chart.labels.map(
+                  (x) =>
+                    window.chart.regression.m * x + window.chart.regression.b,
+                ),
+                backgroundColor: "rgba(255, 99, 132, 0.2)",
+                borderColor: "rgba(255, 99, 132, 1)",
+                borderWidth: 1,
+              },
+              {
+                type: "scatter",
+                label: "Data",
+                data: window.chart.data,
+                backgroundColor: "rgba(54, 162, 235, 0.2)",
+                borderColor: "rgba(54, 162, 235, 1)",
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            plugins: {
+              tooltip: {
+                enabled: true,
+              },
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                min: 0,
+                max: 50,
+              },
+            },
+          },
+        });
+      }
+      function calcError() {
+        const minput = parseFloat(document.getElementById("m-input").value);
+        const binput = parseFloat(document.getElementById("b-input").value);
+        window.chart.regression.m = minput;
+        window.chart.regression.b = binput;
+        const regression = window.chart.labels.map(
+          (x) => window.chart.regression.m * x + window.chart.regression.b,
+        );
+        const error = regression.reduce(
+          (acc, x, i) =>
+            !!window.chart.data[i]
+              ? acc + Math.abs(x - window.chart.data[i])
+              : acc,
+          0,
+        );
+        window.chart.instance.data.datasets[0].data = regression;
+        window.chart.instance.update();
+        const errorOutput = document.getElementById("error");
+        errorOutput.textContent = error.toFixed(2);
+        const b = document.getElementById("b");
+        const m = document.getElementById("m");
+        b.textContent = window.chart.regression.b.toFixed(2);
+        m.textContent = window.chart.regression.m.toFixed(2);
+      }
+      _setupChart();
+      calcError();
+
+      function updatePerceptron() {
+        const i_1 = document.getElementById("i_1");
+        const i_2 = document.getElementById("i_2");
+        const w_1 = document.getElementById("w_1");
+        const w_1_value = document.getElementById("w_1_value");
+        const w_2_value = document.getElementById("w_2_value");
+        const bias = document.getElementById("bias");
+        const bias_value = document.getElementById("bias_value");
+        const output = document.getElementById("perceptron_output");
+        const sum = document.getElementById("added");
+        w_1_value.textContent = w_1.value;
+        w_2_value.textContent = w_2.value;
+        bias_value.textContent = bias.value;
+        sum.textContent = (
+          parseFloat(w_1.value) * !!i_1.checked +
+          parseFloat(w_2.value) * !!i_2.checked +
+          parseFloat(bias.value)
+        ).toFixed(2);
+        output.textContent = sum.textContent > 0 ? "1" : "0";
+      }
+    </script>
+  </body>
+</html>
