@@ -7,7 +7,7 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
 
-    <title>reveal.js</title>
+    <title>Introducción a redes neuronales</title>
 
     <link rel="stylesheet" href="dist/reset.css" />
     <link rel="stylesheet" href="dist/reveal.css" />
@@ -23,6 +23,18 @@
           <h2>Introducción a las redes neuronales</h2>
           <p style="opacity: 0.5">by Kevin Martínez</p>
           <aside class="notes">Shhh, these are your private notes 📝</aside>
+        </section>
+        <section>
+          <div>
+            <img
+              height="400"
+              src="https://github.com/Fairbrook/presentacion-rn/blob/main/qr.png?raw=true"
+              alt=""
+            />
+          </div>
+          <a href="https://fairbrook.github.io/presentacion-rn">
+            http://bit.ly/40e6n6T
+          </a>
         </section>
         <section>
           <blockquote style="padding: 40px">
@@ -222,43 +234,71 @@
                   class="fragment current-visible"
                   data-fragment-index="0"
                 >
-                  <img height="400" src="https://github.com/Fairbrook/presentacion-rn/blob/main/neuron.png?raw=true" alt="" />
+                  <img
+                    height="400"
+                    src="https://github.com/Fairbrook/presentacion-rn/blob/main/neuron.png?raw=true"
+                    alt=""
+                  />
                 </fragment>
                 <fragment
                   class="fragment current-visible"
                   data-fragment-index="1"
                 >
-                  <img height="400" src="https://github.com/Fairbrook/presentacion-rn/blob/main/perceptron.png?raw=true" alt="" />
+                  <img
+                    height="400"
+                    src="https://github.com/Fairbrook/presentacion-rn/blob/main/perceptron.png?raw=true"
+                    alt=""
+                  />
                 </fragment>
                 <fragment
                   class="fragment current-visible"
                   data-fragment-index="2"
                 >
-                  <img height="400" src="https://github.com/Fairbrook/presentacion-rn/blob/main/perceptron-input.png?raw=true" alt="" />
+                  <img
+                    height="400"
+                    src="https://github.com/Fairbrook/presentacion-rn/blob/main/perceptron-input.png?raw=true"
+                    alt=""
+                  />
                 </fragment>
                 <fragment
                   class="fragment current-visible"
                   data-fragment-index="3"
                 >
-                  <img height="400" src="https://github.com/Fairbrook/presentacion-rn/blob/main/perceptron-weights.png?raw=true" alt="" />
+                  <img
+                    height="400"
+                    src="https://github.com/Fairbrook/presentacion-rn/blob/main/perceptron-weights.png?raw=true"
+                    alt=""
+                  />
                 </fragment>
                 <fragment
                   class="fragment current-visible"
                   data-fragment-index="4"
                 >
-                  <img height="400" src="https://github.com/Fairbrook/presentacion-rn/blob/main/perceptron-bias.png?raw=true" alt="" />
+                  <img
+                    height="400"
+                    src="https://github.com/Fairbrook/presentacion-rn/blob/main/perceptron-bias.png?raw=true"
+                    alt=""
+                  />
                 </fragment>
                 <fragment
                   class="fragment current-visible"
                   data-fragment-index="5"
                 >
-                  <img height="400" src="https://github.com/Fairbrook/presentacion-rn/blob/main/perceptron-function.png?raw=true" alt="" />
+                  <img
+                    height="400"
+                    src="https://github.com/Fairbrook/presentacion-rn/blob/main/perceptron-function.png?raw=true"
+                    alt=""
+                  />
                 </fragment>
                 <fragment
                   class="fragment current-visible"
                   data-fragment-index="6"
                 >
-                  <img height="400" src="https://github.com/Fairbrook/presentacion-rn/blob/main/perceptron-output.png?raw=true" alt="" />
+                  <img
+                    height="400"
+                    src="https://github.com/Fairbrook/presentacion-rn/blob/main/perceptron-output.png?raw=true"
+                    alt=""
+                  />
                 </fragment>
               </div>
             </div>
@@ -375,19 +415,23 @@
             Perceptrones agrupados en capas, cada capa comparte una función de
             activación y funcionan en conjunto para obtener la salida deseada
           </p>
-          <img height="300" src="https://github.com/Fairbrook/presentacion-rn/blob/main/mlp.png?raw=true" alt="" />
+          <img
+            height="300"
+            src="https://github.com/Fairbrook/presentacion-rn/blob/main/mlp.png?raw=true"
+            alt=""
+          />
         </section>
         <section>
-            <h3>¿Para que sirven las redes neuronales?</h3>
-            <ul>
-                <li>Procesamiento de imágenes</li>
-                <li>Procesamiento de texto</li>
-                <li>Reconocimiento de voz y audio</li>
-                <li>Análisis clínicos y diagnósticos médicos</li>
-                <li>Predicción de precios y tendencias</li>
-                <li>Vehículos autónomos</li>
-                <li>Predicción del clima</li>
-            </ul>
+          <h3>¿Para que sirven las redes neuronales?</h3>
+          <ul>
+            <li>Procesamiento de imágenes</li>
+            <li>Procesamiento de texto</li>
+            <li>Reconocimiento de voz y audio</li>
+            <li>Análisis clínicos y diagnósticos médicos</li>
+            <li>Predicción de precios y tendencias</li>
+            <li>Vehículos autónomos</li>
+            <li>Predicción del clima</li>
+          </ul>
         </section>
         <section>
           <h3>MNIST</h3>
@@ -500,7 +544,9 @@
       }
       async function setupnn() {
         var nn = new convnetjs.Net();
-        const res = await fetch("/model.json");
+        const res = await fetch(
+          "https://raw.githubusercontent.com/Fairbrook/presentacion-rn/refs/heads/main/model.json",
+        );
         const json = await res.json();
         nn.fromJSON(json);
         window.nn = nn;
